@@ -37,7 +37,7 @@ int main()
 int main()
 {
 	FileCompressHuffman fc;
-	  fc.CompressFile("1.txt");
+	fc.CompressFile("1.txt");
 	fc.UnCompressFile("2.txt");
 
 	return 0;

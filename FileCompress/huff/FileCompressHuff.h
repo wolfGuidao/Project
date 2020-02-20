@@ -1,59 +1,3 @@
-#if 0
-#pragma once
-#include <iostream>
-#include <string>
-#include <vector>
-using namespace std;
-
-struct CharInfo
-{
-	unsigned char _ch;//字符
-	size_t _count;//字符出现的次数
-	string _strCode;//字符编码
-
-	CharInfo(size_t count = 0)
-		:_count(count)
-	{
-
-	}
-
-	CharInfo operator+ (const CharInfo& c)const
-	{
-		return CharInfo(_count + c._count);
-	}
-
-	bool operator>(const CharInfo& c) const
-	{
-		return _count > c._count;
-	}
-
-	bool operator==(const CharInfo& c) const
-	{
-		return _count == c._count;
-	}
-};
-
-class FileCompressHuff
-{
-public:
-	FileCompressHuff();
-	void CompressFile(const string& path);
-	void UnCompressFile(const string& path);
-	
-	
-private:
-	void GenerateHuffManCode(HuffManTreeNode<CharInfo>* pRoot);
-	void WriteHead(FILE* fOut, const string& filePostFix);
-	string GetFilePostFix(const string& filename);
-	void ReadLine(FILE* fIn, string& strInfo);
-
-
-private:
-	vector<CharInfo> _fileInfo;
-};
-
-#endif
-
 //基于huffman的压缩
 #pragma once
 
@@ -74,6 +18,7 @@ struct CharInfo
 		: _count(count)
 	{}
 
+  //相关操作符的重载
 	CharInfo operator+(const CharInfo& ch) const
 	{
 		return CharInfo(_count + ch._count);
@@ -90,17 +35,30 @@ struct CharInfo
 	}
 };
 
+//压缩文件的类
 class FileCompressHuffman
 {
 public:
 	FileCompressHuffman();
+
+  //压缩文件
 	void CompressFile(const std::string& path);
+
+  //解压缩
 	void UnCompressFile(const std::string& path);
 
 private:
+
+  //获得哈弗曼编码
 	void GenerateHuffmanCode(HuffmanTreeNode<CharInfo>* pRoot);  //生成huffman编码
+
+  //获取压缩后文件的头部信息
 	void WriteHead(FILE* fOut, const std::string& filePostFix);
+
+  //获取文件的后缀
 	std::string GetFilePostFix(const std::string& fileName);
+
+  //读取一行
 	void ReadLine(FILE* fIn, std::string& strInfo);
 
 private:

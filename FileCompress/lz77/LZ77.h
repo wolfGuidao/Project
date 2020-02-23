@@ -1,27 +1,20 @@
 #pragma once
 #include<string>
-#include"HashTable.cpp"
+#include"HashTable.h"
 
-class LZ77 
-{
+class LZ77 {
   public:
-
     LZ77();
     ~LZ77();
-    void CompressionFile(const std::string& fileName);
-    void UnCompressionFile(const std::string& fileName);
-
+    void CompressFile(const std::string& strFilePath);
+    void UNCompressFile(const std::string& strFilePath);
   private:
-
-    //获取最长的匹配串
-    USH  LongestMatch(USH matchHead, USH &curMatchDist, USH start);
-
-    //写压缩文件时的标记信息
-    void WriteFlag(FILE* file, UCH& chNum, UCH& bitCount, bool isLen);
-
+    USH LongestMatch(USH matchHead, USH& curMatchDist, USH start);      //找最长匹配
+    void WriteFlag(FILE* fOUT, UCH& chFlag, UCH& bitCount, bool isLen); //写标记文件
+    void MergeFile(FILE* fOut, ULL fileSize);
+    void FillWindow(FILE* fIn, size_t& lookAhead, USH& start);
   private:
-
-    UCH* pWin_;
+    UCH* pWin_;                                                         //用来保存待压缩数据的缓冲区
     HashTable ht_;
 
 };

@@ -122,9 +122,6 @@ void LZ77 :: CompressFile(const std::string& strFilePath) {
   fclose(fOutF);
 
   MergeFile(fOUT, fileSize);
-
-  remove("./3.txt");//删除标记信息文件
-
   fclose(fIn);
   fclose(fOUT);
 

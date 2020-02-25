@@ -1,4 +1,10 @@
 #pragma once
+#include <iostream>
+#include <string>
+#include <assert.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 //记录程序中用到的常量数据
 

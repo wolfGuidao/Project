@@ -1,5 +1,4 @@
-#include"HashTable.h"
-#include<string.h>
+#include "HashTable.h"
 
 const USH HASH_BITS = 15;                  //哈希地址15位
 const USH HASH_SIZE = (1 << HASH_BITS);    //哈希地址个数 32K
@@ -7,11 +6,10 @@ const USH HASH_MASK = HASH_SIZE - 1;       //防止溢出  低15位全1,因为pr
 //时，下标明显大于WSIZE，如果不处理就会下标越界
 
 HashTable::HashTable(USH size)
-  :prev_(new USH[size * 2])     //哈希表中存放的是索引字符串的首地址(下标)
+  :prev_(new USH[size * 2])     //哈希表中存放的是索引字符串的首地址(距离字符串开始的相对下标)
    , head_(prev_ + size)
 {
-  memset(prev_, 0, size * 2 * sizeof(USH));
-
+  memset(prev_, 0, size * 2 * sizeof(USH));//初始化为0，0也代表当前匹配串是链表的末尾（相当于用数组模拟的链表）
 }
 
 HashTable::~HashTable() 
@@ -54,18 +52,25 @@ USH HashTable::H_SHIFT()
   return (HASH_BITS + MIN_MATCH - 1) / MIN_MATCH;     //5
 }
 
-USH HashTable::GetNext(USH matchHead) {
-  return prev_[matchHead&HASH_MASK];
+//获取当前匹配头的下一个匹配头（如果为0代表匹配结束）
+USH HashTable::GetNext(USH matchHead) 
+{
+  return prev_[matchHead & HASH_MASK];
 }
-void HashTable::Update() {
-  for (USH i = 0; i < WSIZE; ++i) {
-    //先更新head
+
+//更新哈希表
+void HashTable::Update() 
+{
+  for (USH i = 0; i < WSIZE; ++i) 
+  {
+    //先更新head,把大于等于WSIXE的下标 减去 WSIZE 放到哈希表的左窗内
+    //把head中小于WSIZE 的下标直接置为0，因为小于WSIZE的下标在查找缓冲区中距离先行缓冲区的距离太远了，进行匹配不划算
     if (head_[i] >= WSIZE)
       head_[i] -= WSIZE;
     else
       head_[i] = 0;
 
-    //更新prev
+    //更新prev，和head同理
     if (prev_[i] >= WSIZE)
       prev_[i] -= WSIZE;
     else

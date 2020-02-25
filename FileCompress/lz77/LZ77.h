@@ -1,5 +1,4 @@
 #pragma once
-#include <string>
 #include "HashTable.h"
 
 class LZ77 
@@ -25,9 +24,9 @@ class LZ77
 
     //获取文件的后缀
     std::string GetStr(std::string filename);
+
   private:
 
     UCH* pWin_;                                                         //用来保存待压缩数据的缓冲区
     HashTable ht_;
-
 };

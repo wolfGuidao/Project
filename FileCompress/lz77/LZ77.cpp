@@ -1,7 +1,4 @@
 #include "LZ77.h"
-#include <iostream>
-#include <assert.h>
-#include <string.h>
 
 const USH MIN_LOOKAHEAD = MAX_MATCH + MIN_MATCH + 1; //要保证最后一次匹配,最大匹配长度258 
 const USH MAX_DIST = WSIZE - MIN_LOOKAHEAD;       //最远的匹配距离，如果距离太远还进行匹配，会大大降低压缩效率
@@ -58,11 +55,13 @@ void LZ77 :: CompressFile(const std::string& strFilePath)
 
   //开始写压缩数据:
   //根据获取的文件后缀打开一个同样文件后缀的压缩数据存储文件
-  std::string sstr = GetStr(strFilePath);
-  std::string str = "2.";
-  str += sstr;
+  //std::string str = GetStr(strFilePath);
+  //FILE* ffIn = fopen("5.txt","wb");
+  //fwrite(str.c_str(),sizeof(str),1,ffIn);
+  //fclose(ffIn);
 
-  FILE* fOUT = fopen(str.c_str(), "wb");
+  //压缩
+  FILE* fOUT = fopen("2.lzp", "wb");
   assert(fOUT);
 
   USH start = 0;//查找字符串在缓冲区的地址,随着压缩的不断进行，start不断的在先行缓冲区中增加
@@ -326,6 +325,17 @@ void LZ77::UNCompressFile(const std::string& strFilePath)
   //开始解压缩
 
   //写解压缩数据
+  
+
+
+  //FILE* ffOut = fopen("5.txt","rb");
+  //std::string filestr ;
+  //std::cout<<filestr<<std::endl;
+  //fread(&filestr,sizeof(filestr),1,ffOut);
+  //std::string str = "4.";
+  //str += filestr;
+  //fclose(ffOut);
+
   FILE* fOut = fopen("4.txt", "wb");
   assert(fOut);
 

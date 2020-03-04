@@ -1,8 +1,8 @@
 /*************************************************************************
 	>    File Name: char_room_srv.c
-	>       Author: fujie
-	>         Mail: fujie.me@qq.com
-	> Created Time: 2017年08月10日 星期四 15时17分19秒
+	>       Author: wolf
+	>         Mail: 2351903911@qq.com
+	> Created Time: 2020年03月05日 星期四 15时17分19秒
  ************************************************************************/
 
 #include <stdio.h>
@@ -38,5 +38,6 @@ int main(){
         printf("数据库连接失败\n");
         exit(0);
     }
+    printf("server is start!\n");
     Connect(port);
 }

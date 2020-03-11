@@ -1,0 +1,14 @@
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    </head>
+    <body>
+        <div>{{id}}.{{name}}.{{star}}</div>
+        <div><pre>{{desc}}</pre></div>
+            <form action="/compile/{{id}}" method="POST">
+                code:<br>
+                <textarea type="text" name="code" rows=30 cols=100>{{header}}</textarea>
+                <input type="submit" value="Submit"></input>
+            </form>
+    </body>
+</html>

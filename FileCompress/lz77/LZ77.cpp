@@ -84,7 +84,7 @@ void LZ77 :: CompressFile(const std::string& strFilePath)
   {
     //1.将第三个字符插入到哈希表中，因为前两个字符已经插入到哈希表当中，(pWin_[start],pWin_[satrt + 1].pWin_[start + 2])并获取匹配链的头
     ht_.Insert(matchHead, pWin_[start + 2], start, hashAddr);
-
+    
     //因为不只进行一此匹配，每次匹配前都要置为0，防止影响后面的数据
     curMatchLength = 0;
     curMatchDist = 0;

@@ -5,7 +5,7 @@
 #include<cstdio>
 #include<cstdlib>
 #include<mysql/mysql.h>
-
+//#include <mysql>
 
 namespace blog_system
 {

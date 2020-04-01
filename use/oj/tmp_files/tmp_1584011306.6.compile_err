@@ -1,0 +1,150 @@
+./tmp_files/tmp_1584011306.6.cpp:15:1: error: stray ‘\302’ in program
+     {
+ ^
+./tmp_files/tmp_1584011306.6.cpp:15:2: error: stray ‘\240’ in program
+     {
+  ^
+./tmp_files/tmp_1584011306.6.cpp:15:3: error: stray ‘\302’ in program
+     {
+   ^
+./tmp_files/tmp_1584011306.6.cpp:15:4: error: stray ‘\240’ in program
+     {
+    ^
+./tmp_files/tmp_1584011306.6.cpp:15:5: error: stray ‘\302’ in program
+     {
+     ^
+./tmp_files/tmp_1584011306.6.cpp:15:6: error: stray ‘\240’ in program
+     {
+      ^
+./tmp_files/tmp_1584011306.6.cpp:15:7: error: stray ‘\302’ in program
+     {
+       ^
+./tmp_files/tmp_1584011306.6.cpp:15:8: error: stray ‘\240’ in program
+     {
+        ^
+./tmp_files/tmp_1584011306.6.cpp:17:1: error: stray ‘\302’ in program
+        remainder=number%10;
+ ^
+./tmp_files/tmp_1584011306.6.cpp:17:2: error: stray ‘\240’ in program
+        remainder=number%10;
+  ^
+./tmp_files/tmp_1584011306.6.cpp:17:3: error: stray ‘\302’ in program
+        remainder=number%10;
+   ^
+./tmp_files/tmp_1584011306.6.cpp:17:4: error: stray ‘\240’ in program
+        remainder=number%10;
+    ^
+./tmp_files/tmp_1584011306.6.cpp:17:5: error: stray ‘\302’ in program
+        remainder=number%10;
+     ^
+./tmp_files/tmp_1584011306.6.cpp:17:6: error: stray ‘\240’ in program
+        remainder=number%10;
+      ^
+./tmp_files/tmp_1584011306.6.cpp:17:7: error: stray ‘\302’ in program
+        remainder=number%10;
+       ^
+./tmp_files/tmp_1584011306.6.cpp:17:8: error: stray ‘\240’ in program
+        remainder=number%10;
+        ^
+./tmp_files/tmp_1584011306.6.cpp:17:9: error: stray ‘\302’ in program
+        remainder=number%10;
+         ^
+./tmp_files/tmp_1584011306.6.cpp:17:10: error: stray ‘\240’ in program
+        remainder=number%10;
+          ^
+./tmp_files/tmp_1584011306.6.cpp:19:1: error: stray ‘\302’ in program
+       now=now*10+remainder;
+ ^
+./tmp_files/tmp_1584011306.6.cpp:19:2: error: stray ‘\240’ in program
+       now=now*10+remainder;
+  ^
+./tmp_files/tmp_1584011306.6.cpp:19:3: error: stray ‘\302’ in program
+       now=now*10+remainder;
+   ^
+./tmp_files/tmp_1584011306.6.cpp:19:4: error: stray ‘\240’ in program
+       now=now*10+remainder;
+    ^
+./tmp_files/tmp_1584011306.6.cpp:19:5: error: stray ‘\302’ in program
+       now=now*10+remainder;
+     ^
+./tmp_files/tmp_1584011306.6.cpp:19:6: error: stray ‘\240’ in program
+       now=now*10+remainder;
+      ^
+./tmp_files/tmp_1584011306.6.cpp:19:7: error: stray ‘\302’ in program
+       now=now*10+remainder;
+       ^
+./tmp_files/tmp_1584011306.6.cpp:19:8: error: stray ‘\240’ in program
+       now=now*10+remainder;
+        ^
+./tmp_files/tmp_1584011306.6.cpp:19:9: error: stray ‘\302’ in program
+       now=now*10+remainder;
+         ^
+./tmp_files/tmp_1584011306.6.cpp:19:10: error: stray ‘\240’ in program
+       now=now*10+remainder;
+          ^
+./tmp_files/tmp_1584011306.6.cpp:19:11: error: stray ‘\302’ in program
+       now=now*10+remainder;
+           ^
+./tmp_files/tmp_1584011306.6.cpp:19:12: error: stray ‘\240’ in program
+       now=now*10+remainder;
+            ^
+./tmp_files/tmp_1584011306.6.cpp:21:1: error: stray ‘\302’ in program
+       number=number/10;
+ ^
+./tmp_files/tmp_1584011306.6.cpp:21:2: error: stray ‘\240’ in program
+       number=number/10;
+  ^
+./tmp_files/tmp_1584011306.6.cpp:21:3: error: stray ‘\302’ in program
+       number=number/10;
+   ^
+./tmp_files/tmp_1584011306.6.cpp:21:4: error: stray ‘\240’ in program
+       number=number/10;
+    ^
+./tmp_files/tmp_1584011306.6.cpp:21:5: error: stray ‘\302’ in program
+       number=number/10;
+     ^
+./tmp_files/tmp_1584011306.6.cpp:21:6: error: stray ‘\240’ in program
+       number=number/10;
+      ^
+./tmp_files/tmp_1584011306.6.cpp:21:7: error: stray ‘\302’ in program
+       number=number/10;
+       ^
+./tmp_files/tmp_1584011306.6.cpp:21:8: error: stray ‘\240’ in program
+       number=number/10;
+        ^
+./tmp_files/tmp_1584011306.6.cpp:21:9: error: stray ‘\302’ in program
+       number=number/10;
+         ^
+./tmp_files/tmp_1584011306.6.cpp:21:10: error: stray ‘\240’ in program
+       number=number/10;
+          ^
+./tmp_files/tmp_1584011306.6.cpp:21:11: error: stray ‘\302’ in program
+       number=number/10;
+           ^
+./tmp_files/tmp_1584011306.6.cpp:21:12: error: stray ‘\240’ in program
+       number=number/10;
+            ^
+./tmp_files/tmp_1584011306.6.cpp:23:1: error: stray ‘\302’ in program
+     }
+ ^
+./tmp_files/tmp_1584011306.6.cpp:23:2: error: stray ‘\240’ in program
+     }
+  ^
+./tmp_files/tmp_1584011306.6.cpp:23:3: error: stray ‘\302’ in program
+     }
+   ^
+./tmp_files/tmp_1584011306.6.cpp:23:4: error: stray ‘\240’ in program
+     }
+    ^
+./tmp_files/tmp_1584011306.6.cpp:23:5: error: stray ‘\302’ in program
+     }
+     ^
+./tmp_files/tmp_1584011306.6.cpp:23:6: error: stray ‘\240’ in program
+     }
+      ^
+./tmp_files/tmp_1584011306.6.cpp:23:7: error: stray ‘\302’ in program
+     }
+       ^
+./tmp_files/tmp_1584011306.6.cpp:23:8: error: stray ‘\240’ in program
+     }
+        ^

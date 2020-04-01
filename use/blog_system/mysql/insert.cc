@@ -20,8 +20,7 @@ int main()
   //  f）服务器的端口号:默认端口号3306
   //  g）unix_sock:NULL
   //  h）client_flag：0
-  if(mysql_real_connect(connect_fd,"127.0.0.1","root","","blog_system",3306,NULL,0)==NULL)
-  {
+
     printf("链接失败！%s\n",mysql_error(connect_fd));
     //mysql_close(connect_fd);
     return 1;

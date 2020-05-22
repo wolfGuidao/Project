@@ -7,6 +7,7 @@ int main()
     //1.创建一个句柄
     MYSQL* connect_fd = mysql_init(NULL);
 
+
     //2.建立链接
     if(mysql_real_connect(connect_fd,"127.0.0.1","root","","blog_system",3306,NULL,0)==NULL)
     {
@@ -18,6 +19,7 @@ int main()
 
     //3.设置编码方式
     mysql_set_character_set(connect_fd,"utf8");
+    
 
     //4.拼接SQL语句
     char sql[1024*10]="select * from blog_table";

@@ -17,15 +17,20 @@ class PlaneGame:
 
         pygame.init()
 
+        # 创建游戏窗口
         self.screen = pygame.display.set_mode(SCREEN_RECT.size)
+
+        # 创建时钟对象
         self.clock = pygame.time.Clock()
 
+        # 创建精灵组
         self.__create_sprites()
         PlaneGame.__create_user_events()
 
     def __create_sprites(self):
         """创建精灵组"""
 
+        # 创建背景精灵组
         self.back_group = pygame.sprite.Group(Background(), Background(True))
 
         self.hero = Hero()
@@ -48,10 +53,19 @@ class PlaneGame:
         """开启游戏循环"""
 
         while True:
+            # 设置窗口的刷新帧率
             self.clock.tick(60)
+
+            # 事件监听
             self.__event_handler()
+
+            # 更新绘制精灵组
             self.__update_sprites()
+
+            # 碰撞检查
             self.__check_collide()
+
+            # 更新窗口显示
             pygame.display.update()
 
     def __check_collide(self):
@@ -126,4 +140,5 @@ class PlaneGame:
 
 
 if __name__ == '__main__':
+    # 创建游戏对象并启动游戏
     PlaneGame().start_game()

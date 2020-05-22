@@ -5,16 +5,25 @@ import pygame
 SCREEN_RECT = pygame.Rect(0, 0, 480, 700)
 
 
+# 指定精灵类的父类
 class GameSprite(pygame.sprite.Sprite):
-    """游戏精灵"""
+    """飞机大战游戏精灵类"""
 
     def __init__(self, image_name, speed=1):
+        # 该类没有继承自object类，就必须重新调用父类的init方法
         super().__init__()
 
+        # 定义对象属性
+        # 加载图像
         self.image = pygame.image.load(image_name)
+
+        # 图像位置
         self.rect = self.image.get_rect()
+
+        # 速度属性
         self.speed = speed
 
+    # 重写父类的update方法，使得图像可以在垂直方向上移动
     def update(self, *args):
         self.rect.top += self.speed
 
@@ -31,14 +40,18 @@ class Background(GameSprite):
     """背景精灵"""
 
     def __init__(self, is_alt=False):
+        # 创建背景精灵
         super().__init__("./images/background.png")
 
+        # 判断是否是交替背景图像
         if is_alt:
             self.rect.bottom = 0
 
     def update(self, *args):
+        # 调用父类的update方法让背景图往下移动
         super().update(args)
 
+        # 判断是否已经移出屏幕，如果已经移除屏幕就把图像移动到品目的最上方
         if self.rect.top >= SCREEN_RECT.height:
             self.rect.bottom = 0
 

@@ -3,6 +3,7 @@
 //C
 #include <cstdio>
 #include <cstdlib>
+#include <climits>
 #include <cstring>
 #include <memory.h>
 #include <ctype.h>

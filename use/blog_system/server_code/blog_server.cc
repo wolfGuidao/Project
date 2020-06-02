@@ -332,6 +332,7 @@ int main()
     });
 
     server.set_base_dir("./wwwroot");
+    printf("IP: 0.0.0.0  PORT: 9090\n");
     server.listen("0.0.0.0",9093);
     return 0;
 }

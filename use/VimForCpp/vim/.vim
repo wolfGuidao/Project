@@ -1,1 +1,0 @@
-/home/tangzhong/.vim

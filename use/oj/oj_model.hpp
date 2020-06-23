@@ -35,117 +35,151 @@
 
 #include "util.hpp"
 
-struct Question {
-  std::string id;       // 题目的 id
-  std::string title;    // 题目的标题
-  std::string dir;      // 题目对应的目录
-  std::string star;     // 题目难度
+//题目四元组信息
+struct Question 
+{
+    std::string id;       // 题目的 id
+    std::string title;    // 题目的标题
+    std::string dir;      // 题目对应的目录
+    std::string star;     // 题目难度
 };
 
-class OjModel {
-private:
-  static std::string HeaderPath(const std::string& question_dir) {
-    return question_dir + "/header.cpp";
-  }
-  static std::string TailPath(const std::string& question_dir) {
-    return question_dir + "/tail.cpp";
-  }
-  static std::string DescPath(const std::string& question_dir) {
-    return question_dir + "/desc.txt";
-  }
-public:
-  OjModel () {
-    assert(Load("./oj_config.cfg"));
-  }
+class OjModel 
+{
+    private:
+        //这几个函数是根据题目的路径拼接出完整的题目文件名，后面要读取对应文件当中的内容
+        //该函数用来获取完整题目的头部文件
+        static std::string HeaderPath(const std::string& question_dir) 
+        {
+            return question_dir + "/header.cpp";
+        }
 
-  OjModel(const OjModel&) = delete;
-  OjModel& operator=(const OjModel&) = delete;
+        //该函数用来获取完整题目的main函数入口，及测试用例
+        static std::string TailPath(const std::string& question_dir) 
+        {
+            return question_dir + "/tail.cpp";
+        }
 
-  bool GetAllQuestions(std::vector<Question>* questions) const {
-    for (const auto& kv : model_) {
-      questions->push_back(kv.second);
-    }
-    // 再来个排序吧, 按照 id 升序. 如果是想按照其他顺序排序
-    // 只要调整 lambda 的实现细节即可.
-    std::sort(questions->begin(), questions->end(),
-        [](const Question& l, const Question& r) {
-          return std::stoi(l.id) < std::stoi(r.id);
-        });
-    return true;
-  }
+        //该函数用来获取题目的描述信息
+        static std::string DescPath(const std::string& question_dir)
+        {
+            return question_dir + "/desc.txt";
+        }
 
-  bool GetQuestionBrief(const std::string& id, Question* question, std::string* code,
-      std::string* desc) const {
-    // 1. 根据 id 找到题目的具体信息
-    auto it = model_.find(id);
-    if (it == model_.end()) {
-      // 该 id 对应的题目不存在
-      LOG(ERROR) << "Question not found! id=" << id << "\n";
-      return false;
-    }
-    *question = it->second;
-    // 2. 根据题目路径加载 header.cpp 
-    bool ret = FileUtil::ReadFile(HeaderPath(question->dir), code);
-    if (!ret) {
-      LOG(ERROR) << "Load question code failed! id=" << question->id << "\n";
-      return false;
-    }
-    // 3. 根据题目路径加载 desc.txt
-    ret = FileUtil::ReadFile(DescPath(question->dir), desc);
-    if (!ret) {
-      LOG(ERROR) << "Load question desc failed! id=" << question->id << "\n";
-      return false;
-    }
-    return true;
-  }
+    public:
+        OjModel () 
+        {
+            //在构造函数加载所有的题目四元组信息
+            assert(Load("./oj_config.cfg"));
+        }
 
-  bool GetQuestionDetail(const std::string& id, const std::string& user_code,
-      std::string* code) const {
-    // 1. 根据 id 找到题目的具体信息
-    auto it = model_.find(id);
-    if (it == model_.end()) {
-      // 该 id 对应的题目不存在
-      LOG(ERROR) << "Question not found! id=" << id << "\n";
-      return false;
-    }
-    const Question& question = it->second;
-    // 2. 根据题目路径加载 tail.cpp
-    std::string tail;
-    bool ret = FileUtil::ReadFile(TailPath(question.dir), &tail);
-    if (!ret) {
-      LOG(ERROR) << "Load question tail failed! id=" << question.id << "\n";
-      return false;
-    }
-    // 4. 填充结果
-    *code = user_code + tail;
-    return true;
-  }
-private:
-  std::unordered_map<std::string, Question> model_;
+        OjModel(const OjModel&) = delete;
+        OjModel& operator=(const OjModel&) = delete;
 
-  bool Load(const std::string& config_path) {
-    std::ifstream file(config_path.c_str());
-    if (!file.is_open()) {
-      return false;     
-    }
-    std::string line;
-    while (std::getline(file, line)) {
-      // 针对 line 进行切分, 字段用 \t 切分
-      std::vector<std::string> tokens;
-      StringUtil::Split(line, "\t", &tokens);
-      // 跳过出错的行
-      if (tokens.size() != 4) {
-        continue;
-      }
-      Question question;
-      question.id = tokens[0];
-      question.title = tokens[1];
-      question.dir = tokens[2];
-      question.star = tokens[3];
-      model_[question.id] = question;
-    }
-    file.close();
-    LOG(INFO) << "Load " << model_.size() << " questions!\n";
-    return true;
-  }
+        //把题目的信息经过切割分离保存到数据结构然后通过出参返回出去
+        bool GetAllQuestions(std::vector<Question>* questions) const 
+        {
+            for (const auto& kv : model_) 
+            {
+                questions->push_back(kv.second);
+            }
+
+            // 再来个排序吧, 按照 id 升序. 如果是想按照其他顺序排序
+            // 只要调整 lambda 的实现细节即可.
+            std::sort(questions->begin(), questions->end(),
+                    [](const Question& l, const Question& r) 
+                    {
+                    return std::stoi(l.id) < std::stoi(r.id);
+                    });
+            return true;
+        }
+
+        //获取但个题目的信息
+        bool GetQuestionBrief(const std::string& id, Question* question, std::string* code,
+                std::string* desc) const 
+        {
+            // 1. 根据 id 找到题目的具体信息
+            auto it = model_.find(id);
+            if (it == model_.end()) {
+                // 该 id 对应的题目不存在
+                LOG(ERROR) << "Question not found! id=" << id << "\n";
+                return false;
+            }
+            *question = it->second;
+            // 2. 根据题目路径加载 header.cpp 
+            bool ret = FileUtil::ReadFile(HeaderPath(question->dir), code);
+            if (!ret) {
+                LOG(ERROR) << "Load question code failed! id=" << question->id << "\n";
+                return false;
+            }
+            // 3. 根据题目路径加载 desc.txt
+            ret = FileUtil::ReadFile(DescPath(question->dir), desc);
+            if (!ret) {
+                LOG(ERROR) << "Load question desc failed! id=" << question->id << "\n";
+                return false;
+            }
+            return true;
+        }
+
+        bool GetQuestionDetail(const std::string& id, const std::string& user_code,
+                std::string* code) const {
+            // 1. 根据 id 找到题目的具体信息
+            auto it = model_.find(id);
+            if (it == model_.end()) 
+            {
+                // 该 id 对应的题目不存在
+                LOG(ERROR) << "Question not found! id=" << id << "\n";
+                return false;
+            }
+            const Question& question = it->second;
+            // 2. 根据题目路径加载 tail.cpp
+            std::string tail;
+            bool ret = FileUtil::ReadFile(TailPath(question.dir), &tail);
+            if (!ret) {
+                LOG(ERROR) << "Load question tail failed! id=" << question.id << "\n";
+                return false;
+            }
+            // 4. 填充结果
+            *code = user_code + tail;
+            return true;
+        }
+    private:
+        std::unordered_map<std::string, Question> model_;
+
+        //加在对应路径上的所有题目信息并保存到unorderd_map当中
+        bool Load(const std::string& config_path) 
+        {
+            std::ifstream file(config_path.c_str());
+            if (!file.is_open()) 
+            {
+                return false;     
+            }
+
+            //题目信息的文件中每个题目都是一行，每一行的题目信息通过空格/制表符进行分割（题目id，题目名称，题目路径，题目难度）
+            std::string line;
+            while (std::getline(file, line)) 
+            {
+                // 针对 line 进行切分, 字段用 \t 切分
+                std::vector<std::string> tokens;
+                StringUtil::Split(line, "\t", &tokens);
+                // 跳过出错的行
+                if (tokens.size() != 4) 
+                {
+                    continue;
+                }
+
+                //保存到自定义数据结构当中
+                Question question;
+                question.id = tokens[0];
+                question.title = tokens[1];
+                question.dir = tokens[2];
+                question.star = tokens[3];
+                //再保存到unordered_map当中
+                model_[question.id] = question;
+            }
+
+            file.close();
+            LOG(INFO) << "Load " << model_.size() << " questions!\n";
+            return true;
+        }
 };

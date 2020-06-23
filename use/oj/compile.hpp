@@ -49,23 +49,31 @@ private:
 public:
   // 最核心的入口函数!
   // 提供两个版本, 只是接口参数不同. 接口为 Json 或者为 std::string
-  static void CompileAndRun(const Json::Value& req, Json::Value* resp) {
+  static void CompileAndRun(const Json::Value& req, Json::Value* resp) 
+  {
     // 1. 生成源代码文件
     // 先检查下 code 字段是否存在
-    if (req["code"].empty()) {
+    if (req["code"].empty()) 
+    {
       (*resp)["error"] = 3;
       LOG(ERROR) << "ParseReq failed! code empty!";
       return;
     }
+
     const std::string& code = req["code"].asString();
+    //把代码写入到文件，并返回文件名前缀
     std::string file_name = WriteTmpFile(code);
-    if (file_name == "") {
+
+    if (file_name == "")
+    {
       (*resp)["error"] = 4;
       LOG(ERROR) << "WriteTmpFile failed!";
       return;
     }
+
     // 2. 创建子进程, 调用 g++ 对源代码文件进行编译, 生成可执行程序
-    if (!Compile(file_name)) {
+    if (!Compile(file_name)) 
+    {
       (*resp)["error"] = 1;
 
       std::string reason;
@@ -75,10 +83,12 @@ public:
       LOG(ERROR) << "Compile failed! check " << file_name;
       return;
     }
+
     // 4. 创建子进程, 执行可执行程序(通过重定向的方式写入标准输入的内容,
     //    并记录输出结果)
     int sig = Run(file_name, req["stdin"].asString());
-    if (sig != 0) {
+    if (sig != 0) 
+    {
       (*resp)["error"] = 2;
       (*resp)["reason"] = "Program exit by sig " + std::to_string(sig);
       LOG(ERROR) << "Run error! check " << file_name << ", sig: "
@@ -117,15 +127,18 @@ private:
     return file_name;
   }
 
-  static bool Compile(const std::string& file_name) {
+  static bool Compile(const std::string& file_name) 
+  {
     // 1. 先构造好编译指令(g++ [file_name] -std=c++11 -o [file_name]_exe 2>[file_name]_compile_err)
     //    注意重定向部分不能直接构造字符串, 还是得借助 dup2.
     const int CommandCount = 20;
     char buf[CommandCount][50] = {{0}};
     char* command[CommandCount] = {0};
-    for (int i = 0; i < CommandCount; ++i) {
+    for (int i = 0; i < CommandCount; ++i) 
+    {
       command[i] = buf[i];
     }
+
     sprintf(command[0], "%s", "g++");
     sprintf(command[1], "%s", SrcPath(file_name).c_str());
     sprintf(command[2], "%s", "-std=c++11");
@@ -134,42 +147,56 @@ private:
     sprintf(command[5], "%s", "-D");
     sprintf(command[6], "%s", "CompileOnline");
     command[7] = NULL;  // 一定要有一个 NULL 指针结尾
+    
     // 2. 创建子进程
     int ret = fork();
-    if (ret > 0) {
+    if (ret > 0) 
+    {
       // 3. 父进程进行进程等待. g++ 应该不会异常终止吧?
       waitpid(ret, NULL, 0);
-    } else if (ret == 0) {
+    } 
+    else if (ret == 0) 
+    {
       // 4. 子进程进行重定向和程序替换(替换成刚才构造的指令)
       int fd = open(CompileErrorPath(file_name).c_str(),
           O_WRONLY | O_CREAT, 0666);
-      if (fd < 0) {
+      
+      if (fd < 0)
+      {
         LOG(ERROR) << "open failed!\n";
         return false;
       }
+
       dup2(fd, 2);  // 此处照例要对着 man 手册琢磨一下
       execvp(command[0], command);
       exit(0);  // 这个 exit 至关重要, 如果替换失败, 就要让子进程销毁.
-    } else {
+    } 
+    else 
+    {
       LOG(ERROR) << "fork failed!\n";
       return false;
     }
+
     // 5. 判定最终是否生成可执行程序. 如果生成成功, 则认为编译成功.
     struct stat st;
     ret = stat(ExePath(file_name).c_str(), &st);
-    if (ret < 0) {
+    if (ret < 0)
+    {
       LOG(ERROR) << "Compile failed! check " << file_name << "\n";
       return false;
     }
+
     return true;
   }
 
   // 返回值为子进程终止的信号
   static int Run(const std::string& file_name,
-      const std::string& std_input) {
+      const std::string& std_input) 
+  {
     // 1. 创建子进程.
     int ret = fork();
-    if (ret == 0) {
+    if (ret == 0)
+    {
       // [限制运行时间]
       // 注册闹钟, 1秒钟之后通过 闹钟信号 终止进程.
       // 通过这种方式限定 Oj 程序的执行时间. 
@@ -189,6 +216,7 @@ private:
       FileUtil::WriteFile(StdinPath(file_name), std_input);
       int fd_stdin = open(StdinPath(file_name).c_str(), O_RDONLY);
       dup2(fd_stdin, 0);
+     
       //  b) 对标准输出和标准错误重定向
       int fd_stdout = open(StdoutPath(file_name).c_str(),
           O_WRONLY | O_CREAT, 0666);
@@ -196,6 +224,7 @@ private:
       int fd_stderr = open(StderrPath(file_name).c_str(),
           O_WRONLY | O_CREAT, 0666);
       dup2(fd_stderr, 2);   // 往标准错误中写, 相当于写文件
+      
       //  c) 进行程序替换
       execl(ExePath(file_name).c_str(), ExePath(file_name).c_str(), NULL);
       LOG(ERROR) << "exec failed!" << strerror(errno) << "\n";
